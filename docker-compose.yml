@@ -34,5 +34,27 @@ services:
       retries: 3
       start_period: 30s
 
+  health-aggregator:
+    build: ./health-aggregator
+    container_name: health-aggregator
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - PORT=8082
+      - TZ=America/New_York
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+          cpus: '0.25'
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8082/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
 volumes:
   uptime-kuma-data:
