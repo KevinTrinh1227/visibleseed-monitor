@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    volumes:
+      - uptime-kuma-data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./custom-entrypoint.sh:/custom-entrypoint.sh:ro
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "/custom-entrypoint.sh"]
+    environment:
+      - TZ=America/New_York
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+volumes:
+  uptime-kuma-data:

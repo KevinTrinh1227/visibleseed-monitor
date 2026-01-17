@@ -1,0 +1,9 @@
+# Data directory (contains sensitive monitoring data)
+data/
+
+# Environment files
+.env
+.env.local
+
+# OS files
+.DS_Store
